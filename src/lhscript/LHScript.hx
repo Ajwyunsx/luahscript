@@ -7,6 +7,7 @@ import luahscript.LuaParser;
 import luahscript.exprs.LuaExpr;
 import luahscript.LuaAndParams;
 import luahscript.exprs.*;
+import luahscript.exprs.LuaErrorDef.LuaVariableType;
 import haxe.Constraints.IMap;
 
 @:access(luahscript.LuaInterp)
