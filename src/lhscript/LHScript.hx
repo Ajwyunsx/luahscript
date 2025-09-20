@@ -16,6 +16,12 @@ class LHScript {
 	private static inline var GLOBAL:String = "global";
 	private static inline var FIELD:String = "Field";
 	private static inline var UNKNOWN:String = "";
+
+	// LuaVariableType enum instances
+	private static var LOCAL_VAR_TYPE:LuaVariableType = cast LOCAL;
+	private static var GLOBAL_VAR_TYPE:LuaVariableType = cast GLOBAL;
+	private static var FIELD_VAR_TYPE:LuaVariableType = cast FIELD;
+	private static var UNKNOWN_VAR_TYPE:LuaVariableType = cast UNKNOWN;
 	public var interp:LuaInterp;
 	private var parser:LuaParser;
 	private var scriptContent:String;
@@ -285,7 +291,7 @@ class LHScript {
 									type = LHScript.UNKNOWN;
 							}
 						});
-						return interp.error(ECallNilValue(sb, cast type), e.line);
+						return interp.error(ECallNilValue(sb, type == LOCAL ? LOCAL_VAR_TYPE : (type == GLOBAL ? GLOBAL_VAR_TYPE : (type == FIELD ? FIELD_VAR_TYPE : UNKNOWN_VAR_TYPE))), e.line);
 					}
 					if (isDouble) {
 						if (Reflect.isObject(obj) && !Std.isOfType(obj, luahscript.LuaTable)) {
@@ -328,7 +334,7 @@ class LHScript {
 									type = LHScript.UNKNOWN;
 							}
 						});
-						return interp.error(ECallNilValue(sb, cast type), e.line);
+						return interp.error(ECallNilValue(sb, type == LOCAL ? LOCAL_VAR_TYPE : (type == GLOBAL ? GLOBAL_VAR_TYPE : (type == FIELD ? FIELD_VAR_TYPE : UNKNOWN_VAR_TYPE))), e.line);
 					}
 					return try Reflect.callMethod(null, func, args) catch(e:haxe.Exception) throw interp.error(ECustom(Std.string(e)), 0);
 			}
